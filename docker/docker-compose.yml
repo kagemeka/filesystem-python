@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kagemeka/filesystem-python:latest
+    tty: true
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: $ROOT
+        target: /root/$PROJECT
+        volume:
+          nocopy: true
+        read_only: false
