@@ -1,0 +1,11 @@
+PyYAML==5.4.1
+toml
+xmltodict
+xlrd==1.2.0
+XlsxWriter
+chardet
+iniconfig
+openpyxl
+h5py
+PyExcelerate
+untangle
