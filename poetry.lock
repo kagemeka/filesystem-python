@@ -1060,6 +1060,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "types-toml"
+version = "0.10.4"
+description = "Typing stubs for toml"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "types-urllib3"
 version = "1.26.9"
 description = "Typing stubs for urllib3"
@@ -1164,7 +1172,7 @@ docs = ["sphinx", "furo", "myst-parser", "sphinx_rtd_theme", "sphinxcontrib-merm
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "cf48a0081e62c250b315469be69d35fece63c9fa70a4e6f4e64c98ce81fdc9d9"
+content-hash = "99234929b77ca5c366f89a041954c5242a5b6b0ae6460bc8695a33738f9f2a4c"
 
 [metadata.files]
 alabaster = [
@@ -1732,6 +1740,10 @@ types-requests = [
 types-setuptools = [
     {file = "types-setuptools-57.4.9.tar.gz", hash = "sha256:536ef74744f8e1e4be4fc719887f886e74e4cf3c792b4a06984320be4df450b5"},
     {file = "types_setuptools-57.4.9-py3-none-any.whl", hash = "sha256:948dc6863373750e2cd0b223a84f1fb608414cde5e55cf38ea657b93aeb411d2"},
+]
+types-toml = [
+    {file = "types-toml-0.10.4.tar.gz", hash = "sha256:9340e7c1587715581bb13905b3af30b79fe68afaccfca377665d5e63b694129a"},
+    {file = "types_toml-0.10.4-py3-none-any.whl", hash = "sha256:4a9ffd47bbcec49c6fde6351a889b2c1bd3c0ef309fa0eed60dc28e58c8b9ea6"},
 ]
 types-urllib3 = [
     {file = "types-urllib3-1.26.9.tar.gz", hash = "sha256:abd2d4857837482b1834b4817f0587678dcc531dbc9abe4cde4da28cef3f522c"},
