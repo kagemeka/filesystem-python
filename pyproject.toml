@@ -11,14 +11,14 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 description = "FileSystem for Python"
-documentation = "https://python-project-templates.readthedocs.io"
+documentation = "https://filesystem-python.readthedocs.io"
 exclude = [
   "**/tests/",
   "**/*_test.py",
   "**/test_*.py",
   "**/_test_*.py",
 ]
-homepage = "https://github.com/kagemeka/python-project-template/#readme"
+homepage = "https://github.com/kagemeka/filesystem-python/#readme"
 include = []
 keywords = ["template", "python"]
 license = "MIT"
@@ -29,7 +29,7 @@ packages = [
   {include = "filesystem", from = "src"},
 ]
 readme = "README.md"
-repository = "https://github.com/kagemeka/python-project-template"
+repository = "https://github.com/kagemeka/filesystem-python"
 version = "0.1.1"
 
 [tool.poetry.dependencies]
