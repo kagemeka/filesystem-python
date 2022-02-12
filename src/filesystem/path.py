@@ -61,7 +61,6 @@ def get_file_extension(filepath: str) -> typing.Optional[str]:
     if filepath.count(".") > 1:
         raise AmbiguousExtensionError
     chunks = os.path.splitext(filepath)
-    assert chunks
     if not chunks[-1]:
         return None
     return chunks[-1].lstrip(".").lower()
