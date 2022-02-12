@@ -1,136 +1,115 @@
-# import io
-# import json
-# import pathlib
-# import typing
+from __future__ import annotations
 
-# Path_ = typing.Union[pathlib.Path, str]
+import io
+import json
+import pickle
+import typing
 
-# Input = typing.Union[
-#     io.TextIOWrapper,
-#     io.BufferedReader,
-#     str,
-#     bytes,
-#     int,
-# ]
-# T = typing.TypeVar("T")
-# U = typing.TypeVar("U")
+import toml
+import yaml
+
+T = typing.TypeVar("T")
+U = typing.TypeVar("U")
 
 
-# class Readable(typing.Protocol):
-#     def read(self) -> bytes:
-#         ...
+class Readable(typing.Protocol):
+    def read(self) -> bytes:
+        ...
 
-#     def readline(self) -> bytes:
-#         ...
+    def readline(self) -> bytes:
+        ...
 
-#     def readlines(self) -> list[bytes]:
-#         ...
-
-
-# Input: typing.Type = typing.Union[
-#     io.TextIOWrapper,
-#     io.BufferedReader,
-#     Readable,
-#     str,
-#     bytes,
-#     int,
-# ]
+    def readlines(self) -> list[bytes]:
+        ...
 
 
-# def dump_yaml(data: typing.Any, path: str) -> typing.NoReturn:
-#     import yaml
-
-#     with open(file=path, mode="w") as stream:
-#         yaml.dump(data=data, stream=stream)
-
-
-# def load_yaml(path: str) -> typing.Any:
-#     import yaml
-
-#     with open(file=path, mode="r") as stream:
-#         return yaml.load(stream=stream, Loader=yaml.FullLoader)
+Input = typing.Union[
+    io.TextIOWrapper,
+    io.BufferedReader,
+    Readable,
+    str,
+    bytes,
+    int,
+]
 
 
-# def dump_toml(
-#     data: typing.Mapping[str, typing.Any], path: str
-# ) -> typing.NoReturn:
-#     """dump_toml"""
-#     import toml
-
-#     with open(file=path, mode="w", encoding="utf-8") as f:
-#         toml.dump(o=data, f=f)
+def dump_yaml(data: typing.Any, path: str) -> None:
+    with open(file=path, mode="w") as stream:
+        yaml.safe_dump(data, stream, default_flow_style=False)
 
 
-# import toml
+def load_yaml(path: str) -> typing.Any:
+    with open(file=path, mode="r") as stream:
+        return yaml.safe_load(stream)
 
 
-# def load_toml(path: str) -> dict[U, V]:
-#     import toml
-
-#     with open(file=path, mode="r", encoding="utf-8") as f:
-#         return toml.load(f=f)
+def dump_toml(data: typing.Mapping[str, typing.Any], path: str) -> None:
+    with open(file=path, mode="w", encoding="utf-8") as f:
+        toml.dump(o=data, f=f)
 
 
-# def dump_pickle(obj: T, path: str) -> None:
-#     import pickle
-
-#     with open(file=path, mode="wb") as f:
-#         pickle.dump(obj=obj, file=f)
+def load_toml(path: str) -> dict[T, U]:
+    with open(file=path, mode="r", encoding="utf-8") as f:
+        return typing.cast(dict[T, U], toml.load(f=f))
 
 
-# def load_pickle(path: str) -> T:
-#     import pickle
-
-#     with open(file=path, mode="rb") as f:
-#         return typing.cast(T, pickle.load(file=f))
+def dump_pickle(obj: T, pickle_file_path: str) -> None:
+    with open(file=pickle_file_path, mode="wb") as f:
+        pickle.dump(obj=obj, file=f)
 
 
-# Jsonizable = typing.Union[
-#     bool,
-#     int,
-#     float,
-#     str,
-#     list,
-#     dict,
-#     None,
-# ]
+def load_pickle(pickle_file_path: str) -> T:
+    with open(file=pickle_file_path, mode="rb") as fp:
+        return typing.cast(T, pickle.load(file=fp))
 
 
-# def load_json(path: str) -> Jsonizable:
-#     with open(file=path, mode="r", encoding="utf-8") as fp:
-#         return json.load(fp=fp)
+Jsonizable = bool | int | float | str | list | dict | None
 
 
-# def dump_json(data: Jsonizable, path: str) -> typing.NoReturn:
-#     with open(file=path, mode="w", encoding="utf-8") as fp:
-#         json.dump(obj=data, fp=fp)
+def load_json(json_file_path: str) -> Jsonizable:
+    with open(file=json_file_path, mode="r", encoding="utf-8") as fp:
+        return typing.cast(Jsonizable, json.load(fp=fp))
 
 
-# def encode_json(obj: Jsonizable) -> bytes:
-#     return json.dumps(obj).encode()
+def dump_json(data: Jsonizable, path: str) -> None:
+    with open(file=path, mode="w", encoding="utf-8") as fp:
+        json.dump(obj=data, fp=fp)
 
 
-# def decode_to_json(obj: bytes) -> Jsonizable:
-#     return json.loads(obj.decode())
+def encode_json(item: Jsonizable) -> bytes:
+    return json.dumps(item).encode()
 
 
-# def read_ini(
-#     path: str,
-# ) -> typing.Mapping[str, typing.Mapping[str, typing.Any]]:
-#     import configparser
-
-#     cp = configparser.ConfigParser()
-#     cp.read(filenames=path)
-#     return cp._sections
+def decode_to_json(item: bytes) -> Jsonizable:
+    return typing.cast(Jsonizable, json.loads(item.decode()))
 
 
-# def write_ini(
-#     data: typing.Mapping[str, typing.Mapping[str, typing.Any]],
-#     path: str,
-# ) -> typing.NoReturn:
-#     import configparser
+def read_ini(
+    ini_file_path: str,
+) -> typing.Mapping[str, typing.Mapping[str, typing.Any]]:
+    import configparser
 
-#     cp = configparser.ConfigParser()
-#     cp.read_dict(data)
-#     with open(file=path, mode="w") as f:
-#         cp.write(f)
+    parser = configparser.ConfigParser()
+    parser.read(filenames=ini_file_path)
+    return typing.cast(
+        typing.Mapping[str, typing.Mapping[str, typing.Any]],
+        getattr(parser, "_sections"),
+    )
+
+
+def write_ini(
+    data: typing.Mapping[str, typing.Mapping[str, typing.Any]],
+    ini_file_path: str,
+) -> None:
+    import configparser
+
+    cp = configparser.ConfigParser()
+    cp.read_dict(data)
+    with open(file=ini_file_path, mode="w") as f:
+        cp.write(f)
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod(verbose=True)
