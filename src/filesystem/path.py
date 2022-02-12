@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import glob
 import os
 import typing
@@ -56,12 +58,11 @@ class AmbiguousExtensionError(Exception):
     pass
 
 
-def get_file_extension(filepath: str) -> typing.Optional[str]:
+def get_file_extension(filepath: str) -> str | None:
     filepath = os.path.abspath(filepath)
     if filepath.count(".") > 1:
         raise AmbiguousExtensionError
     chunks = os.path.splitext(filepath)
-    assert chunks
     if not chunks[-1]:
         return None
     return chunks[-1].lstrip(".").lower()
@@ -78,17 +79,11 @@ def get_base_rootname(path: str) -> str:
 def assert_extension(filepath: str, extension: str = r".+") -> bool:
     import re
 
+    import optext.option
+
     return (
         re.compile(extension, re.IGNORECASE).match(
-            _unwrap(get_file_extension(filepath))
+            optext.option.unwrap(get_file_extension(filepath))
         )
         is not None
     )
-
-
-T = typing.TypeVar("T")
-
-
-def _unwrap(item: typing.Optional[T]) -> T:
-    assert item is not None
-    return item

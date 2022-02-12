@@ -2,15 +2,35 @@
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
+# POETRY ------------------------------------------------------------------------------
 [tool.poetry]
-authors = ["kagemeka <kagemeka1@gmail.com>"]
-description = ""
+authors = ["Hiroshi Tsuyuki <kagemeka1@gmail.com>"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+description = "FileSystem for Python"
+documentation = "https://filesystem-python.readthedocs.io"
+exclude = [
+  "**/tests/",
+  "**/*_test.py",
+  "**/test_*.py",
+  "**/_test_*.py",
+]
+homepage = "https://github.com/kagemeka/filesystem-python/#readme"
+include = []
+keywords = ["template", "python"]
 license = "MIT"
+maintainers = ["Hiroshi Tsuyuki <kagemeka1@gmail.com>"]
 name = "filesystem-python"
+
 packages = [
   {include = "filesystem", from = "src"},
 ]
-version = "0.1.0"
+readme = "README.md"
+repository = "https://github.com/kagemeka/filesystem-python"
+version = "0.1.2"
 
 [tool.poetry.dependencies]
 PyExcelerate = "^"
@@ -20,53 +40,107 @@ chardet = "^"
 h5py = "^"
 iniconfig = "^"
 openpyxl = "^"
-python = "^3.10"
+optext-python = "0.1.1"
+python = ">=3.8,<3.11"
 toml = "^"
 untangle = "^"
 xlrd = "1.2.0"
 xmltodict = "^"
 
-[tool.poetry.dev-dependencies]
+# [[tool.poetry.source]]
+# name = 'private'
+# url = 'http://example.com/simple'
 
+furo = {version = "^", optional = true}
+myst-parser = {version = "^", optional = true}
+pdoc3 = {version = "^", optional = true}
+pydata-sphinx-theme = {version = "^", optional = true}
+python-docs-theme = {version = "^", optional = true}
+sphinx = {version = "^", optional = true}
+sphinx-book-theme = {version = "^", optional = true}
+sphinx-theme-pd = {version = "^", optional = true}
+sphinx_rtd_theme = {version = "<=2.0.0", optional = true}
+sphinxcontrib-mermaid = {version = "^", optional = true}
+
+[tool.poetry.extras]
+docs = [
+  "sphinx",
+  "furo",
+  "myst-parser",
+  "sphinx_rtd_theme",
+  "sphinxcontrib-mermaid",
+  "pdoc3",
+  "python-docs-theme",
+  "sphinx-theme-pd",
+  "sphinx-book-theme",
+  "pydata-sphinx-theme",
+]
+
+[tool.poetry.dev-dependencies]
+PyYAML = "^"
 autopep8 = "^"
 bandit = "^"
 black = "^"
 blacken-docs = "^"
 flake8 = "^"
-furo = "^"
 isort = "^"
 mypy = "^"
-myst-parser = "^"
-pdoc3 = "^"
+pre-commit = "^"
+pycodestyle = "^"
 pydocstyle = "^"
 pylint = "^"
+pyproject-flake8 = "^"
 pytest = "^"
 pytest-asyncio = "^"
-sphinx = "^"
-sphinxcontrib-mermaid = "^"
+types-PyYAML = "^"
 types-requests = "^"
+types-setuptools = "^"
 
+# FORMATTING ------------------------------------------------------------------------------
 [tool.black]
-# compatible configurations -> https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html
+# github: https://github.com/psf/black
+# docs: https://black.readthedocs.io/en/stable/
+# compatible configurations: https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html
 line-length = 79
 target-version = ["py38", "py39", "py310"]
 
-[tool.flake8]
-count = 'true' # have not adaped to boolean value yet.
-exclude = "" 
-ignore = 'E203' 
-max_line_length = 79 
-show-source = 'true' 
-statistics = 'true' 
+[tool.autopep8]
+# github: https://github.com/hhatto/autopep8
+aggressive = 3
+ignore = "E501,W6" # or ["E501", "W6"]
+in-place = true
+max_line_length = 79
+recursive = true
 
 [tool.isort]
-# all config files -> https://pycqa.github.io/isort/docs/configuration/config_files.html
-# full options -> https://pycqa.github.io/isort/docs/configuration/options.html
+# github: https://github.com/PyCQA/isort
+# docs: https://pycqa.github.io/isort/
+# config files -> https://pycqa.github.io/isort/docs/configuration/config_files.html
+# options: https://pycqa.github.io/isort/docs/configuration/options.html
 profile = "black"
-# see all profiles -> https://pycqa.github.io/isort/docs/configuration/profiles.html
+# profiles: https://pycqa.github.io/isort/docs/configuration/profiles.html
 line_length = 79
 
+# LINTING ------------------------------------------------------------------------------
+[tool.flake8]
+# github: https://github.com/PyCQA/flake8
+# docs: https://flake8.pycqa.org/en/latest/
+# options: https://flake8.pycqa.org/en/latest/user/options.html
+count = 'true'
+exclude = ["docs/", "scripts/"]
+exit_zero = 'true'
+ignore = 'E203'
+max_complexity = 3 # https://en.wikipedia.org/wiki/Cyclomatic_complexity
+max_line_length = 79
+show_source = 'true'
+statistics = 'true'
+verbose = 'true'
+
+# TYPE CHECKING ------------------------------------------------------------------------------
 [tool.mypy]
+# github: https://github.com/python/mypy
+# docs: https://mypy.readthedocs.io/en/stable/
+# options: https://mypy.readthedocs.io/en/stable/config_file.html
 allow_untyped_globals = false
 color_output = true
 disallow_any_decorated = true
@@ -79,6 +153,8 @@ disallow_untyped_calls = true
 disallow_untyped_decorators = true
 disallow_untyped_defs = true
 error_summary = true
+exclude = ["docs/"]
+follow_imports = 'normal'
 ignore_missing_imports = true
 no_implicit_optional = true
 no_implicit_reexport = true
@@ -91,6 +167,20 @@ show_error_codes = true
 strict = true
 strict_equality = true
 strict_optional = true
+warn_no_return = true
+warn_return_any = true
+warn_unused_ignores = true
 
+[tool.pyre]
+# github: https://github.com/facebook/pyre-check
+# docs: https://pyre-check.org/
+
+# TESTING ------------------------------------------------------------------------------
 [tool.pytest.ini_options]
+# github: https://github.com/pytest-dev/pytest
+# docs: https://docs.pytest.org
 cache_dir = "/tmp/.pytest_cache"
+
+[tool.tox]
+# github: https://github.com/tox-dev/tox
+# docs: https://tox.wiki/en/latest/
